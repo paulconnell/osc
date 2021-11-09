@@ -2,10 +2,10 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     yscale += 0.05
 })
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
-    offset += 1
+    offset += -1
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    offset += -1
+    offset += 1
 })
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     xscale += -1
@@ -44,7 +44,8 @@ game.onUpdate(function () {
     for (let index = 0; index < 160; index++) {
         osc.drawLine(column, 0, column, 120, 15)
         prev = curr
-        curr = buffer[read] * (yscale * (yscale * 60)) + offset
+        curr = buffer[read] * (yscale * 60) + offset
+        curr = 120 - curr
         osc.drawLine(column - 1, prev, column, curr, 2)
         column += 1
         read += xscale
