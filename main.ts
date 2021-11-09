@@ -32,8 +32,10 @@ controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
     if (simulate == true) {
         simulate = false
         timer.background(function () {
-            for (let index = 0; index <= bufsz; index++) {
-                buffer[index] = pins.P0.analogRead() * 0.0009765625
+            while (true) {
+                for (let index = 0; index <= bufsz; index++) {
+                    buffer[index] = pins.P0.analogRead() * 0.0009765625
+                }
             }
         })
     }
