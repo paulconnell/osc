@@ -46,7 +46,7 @@ let bufsz = 0
 bufsz = 1024
 simulate = true
 let offset = 60
-xscale = 256
+xscale = 32
 let yscale = 1
 let osc = image.create(160, 120)
 let mySprite = sprites.create(osc, SpriteKind.Player)
@@ -75,6 +75,7 @@ game.onUpdate(function () {
                 read = 0
             }
         }
+        info.setScore(xscale)
         osc.drawLine(0, 60, 160, 60, 5)
     }
 })
