@@ -29,16 +29,7 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
     yscale += -0.05
 })
 controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (simulate == true) {
-        simulate = false
-        timer.background(function () {
-            while (true) {
-                for (let index = 0; index <= bufsz; index++) {
-                    buffer[index] = pins.P0.analogRead() * 0.0009765625
-                }
-            }
-        })
-    }
+    simulate = false
 })
 controller.left.onEvent(ControllerButtonEvent.Repeated, function () {
     xscale += -4
@@ -46,26 +37,32 @@ controller.left.onEvent(ControllerButtonEvent.Repeated, function () {
         xscale = 4
     }
 })
-let buffer: number[] = []
+let read = 0
+let curr = 0
+let prev = 0
 let xscale = 0
 let simulate = false
 let bufsz = 0
-bufsz = 2048
+bufsz = 1024
 simulate = true
 let offset = 60
 xscale = 256
 let yscale = 1
 let osc = image.create(160, 120)
 let mySprite = sprites.create(osc, SpriteKind.Player)
-buffer = [0, bufsz]
+let buffer = [0, bufsz]
 let twopi = 6.283185307179586
-let read = 0
-let curr = 0
-let prev = 0
-for (let index = 0; index <= bufsz; index++) {
-    buffer[index] = Math.sin(twopi / bufsz * index)
+for (let index2 = 0; index2 <= bufsz; index2++) {
+    buffer[index2] = Math.sin(twopi / bufsz * index2)
 }
 game.onUpdate(function () {
+    if (simulate == false) {
+        timer.background(function () {
+            for (let index = 0; index <= bufsz; index++) {
+                buffer[index] = pins.P0.analogRead() * 0.0009765625
+            }
+        })
+    }
     if (!(controller.A.isPressed() && controller.B.isPressed())) {
         osc.fill(15)
         for (let column = 0; column <= 160; column++) {
